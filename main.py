@@ -5,31 +5,32 @@ import sdl2
 import sdl2.ext
 
 
-STEP = 0.01
+STEP = 0.001
 A_COEFF = 100
 WIDTH = 500
 HEIGHT = 500
 
 
-def draw(renderer, center):
+def draw(window, renderer, center):
     center_x, center_y = center
     sdl2.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255)
     sdl2.SDL_RenderClear(renderer)
-
-    points = []
-    y_dots = []
+    sdl2.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0)
     a = A_COEFF
-    t = -100
-    while t < 100:
+    t = -5
+    while t < 5:
         x = a * t**2 / (1 + t**2) + center_x
         y = a * t**3 / (1 + t**2) + center_y
-        points.append((trunc(x), trunc(y)))
-        y_dots.append((trunc(center_x), trunc(y)))
+        draw_point(renderer, (trunc(x), trunc(y)))
         t += STEP
-
-    draw_points(renderer, from_points(points), (0, 0, 0, 0))
-    draw_points(renderer, from_points(y_dots), (192, 57, 43, 1))
+    sdl2.SDL_SetRenderDrawColor(renderer, 192, 57, 43, 1)
+    sdl2.SDL_RenderDrawLine(renderer, center_x, 0, center_x, window_size(window)[1])
     sdl2.SDL_RenderPresent(renderer)
+
+
+def draw_point(renderer, point):
+    x, y = point
+    sdl2.SDL_RenderDrawPoint(renderer, x, y)
 
 
 def draw_points(renderer, points, color):
@@ -76,7 +77,7 @@ def main():
             if event.type == sdl2.SDL_QUIT:
                 running = False
                 break
-        draw(renderer, (center_x, center_y))
+        draw(window, renderer, (center_x, center_y))
     sdl2.SDL_DestroyWindow(window)
     sdl2.SDL_Quit()
     return 0
