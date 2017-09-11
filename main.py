@@ -79,7 +79,7 @@ def main():
             if event.type == sdl2.SDL_QUIT:
                 running = False
                 break
-        draw(window, renderer, (center_x, center_y))
+            draw(window, renderer, (center_x, center_y))
     sdl2.SDL_DestroyWindow(window)
     sdl2.SDL_Quit()
     return 0
