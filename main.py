@@ -1,6 +1,7 @@
 import ctypes
 import sys
 from math import trunc
+import math
 
 import sdl2
 import sdl2.ext
@@ -9,6 +10,7 @@ STEP = 0.001
 A_COEFF = 100
 WIDTH = 500
 HEIGHT = 500
+SECTION = 30
 INTERVAL = (-5, 5)
 
 
@@ -19,7 +21,14 @@ def draw(window, renderer, center):
     sdl2.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0)
     start, end = INTERVAL
     t = start
+    current_section = 0
     while t < end:
+        angle = abs(int(math.degrees(math.atan(t))))
+        new_section = angle // SECTION
+        if new_section != current_section:
+            current_section = new_section
+            color = SECTION * current_section * 4
+            sdl2.SDL_SetRenderDrawColor(renderer, color, color, color, 1)
         x = A_COEFF * t ** 2 / (1 + t ** 2) + center_x
         y = A_COEFF * t ** 3 / (1 + t ** 2) + center_y
         draw_point(renderer, (trunc(x), trunc(y)))
