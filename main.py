@@ -1,9 +1,9 @@
-import sys
-from math import pi, sin, cos, trunc
 import ctypes
+import sys
+from math import trunc
+
 import sdl2
 import sdl2.ext
-
 
 STEP = 0.001
 A_COEFF = 100
@@ -19,8 +19,8 @@ def draw(window, renderer, center):
     a = A_COEFF
     t = -5
     while t < 5:
-        x = a * t**2 / (1 + t**2) + center_x
-        y = a * t**3 / (1 + t**2) + center_y
+        x = a * t ** 2 / (1 + t ** 2) + center_x
+        y = a * t ** 3 / (1 + t ** 2) + center_y
         draw_point(renderer, (trunc(x), trunc(y)))
         t += STEP
     sdl2.SDL_SetRenderDrawColor(renderer, 192, 57, 43, 1)
@@ -45,12 +45,13 @@ def window_size(window):
     sdl2.SDL_GetWindowSize(window, ctypes.byref(width), ctypes.byref(height))
     return width.value, height.value
 
+
 def window_center(window):
-    return (x//2 for x in window_size(window))
+    return (x // 2 for x in window_size(window))
 
 
 def from_points(points):
-    return (sdl2.SDL_Point*len(points))(*[sdl2.SDL_Point(p[0], p[1]) for p in points])
+    return (sdl2.SDL_Point * len(points))(*[sdl2.SDL_Point(p[0], p[1]) for p in points])
 
 
 def main():
@@ -71,9 +72,9 @@ def main():
     center_y = HEIGHT // 2
     while running:
         while sdl2.SDL_PollEvent(ctypes.byref(event)) != 0:
-            if event.type ==  sdl2.SDL_WINDOWEVENT:
+            if event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                    center_x, center_y = window_center(window)   
+                    center_x, center_y = window_center(window)
             if event.type == sdl2.SDL_QUIT:
                 running = False
                 break
