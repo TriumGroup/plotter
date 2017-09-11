@@ -9,6 +9,7 @@ STEP = 0.001
 A_COEFF = 100
 WIDTH = 500
 HEIGHT = 500
+INTERVAL = (-5, 5)
 
 
 def draw(window, renderer, center):
@@ -16,11 +17,11 @@ def draw(window, renderer, center):
     sdl2.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255)
     sdl2.SDL_RenderClear(renderer)
     sdl2.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0)
-    a = A_COEFF
-    t = -5
-    while t < 5:
-        x = a * t ** 2 / (1 + t ** 2) + center_x
-        y = a * t ** 3 / (1 + t ** 2) + center_y
+    start, end = INTERVAL
+    t = start
+    while t < end:
+        x = A_COEFF * t ** 2 / (1 + t ** 2) + center_x
+        y = A_COEFF * t ** 3 / (1 + t ** 2) + center_y
         draw_point(renderer, (trunc(x), trunc(y)))
         t += STEP
     sdl2.SDL_SetRenderDrawColor(renderer, 192, 57, 43, 1)
