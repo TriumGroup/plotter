@@ -7,7 +7,6 @@ import sdl2
 import sdl2.ext
 
 STEP = 0.001
-A_COEFF = 100
 WIDTH = 500
 HEIGHT = 500
 SECTION = 30
@@ -16,12 +15,14 @@ INTERVAL = (-5, 5)
 
 def draw(window, renderer, center):
     center_x, center_y = center
+    width, height = window_size(window)
     sdl2.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255)
     sdl2.SDL_RenderClear(renderer)
     sdl2.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0)
     start, end = INTERVAL
     t = start
     current_section = 0
+    a = width // 2 - (width // 3)
     while t < end:
         angle = abs(int(math.degrees(math.atan(t))))
         new_section = angle // SECTION
@@ -29,8 +30,8 @@ def draw(window, renderer, center):
             current_section = new_section
             color = SECTION * current_section * 4
             sdl2.SDL_SetRenderDrawColor(renderer, color, color, color, 1)
-        x = A_COEFF * t ** 2 / (1 + t ** 2) + center_x
-        y = A_COEFF * t ** 3 / (1 + t ** 2) + center_y
+        x = a * t ** 2 / (1 + t ** 2) + center_x
+        y = a * t ** 3 / (1 + t ** 2) + center_y
         draw_point(renderer, (trunc(x), trunc(y)))
         t += STEP
     sdl2.SDL_SetRenderDrawColor(renderer, 192, 57, 43, 1)
