@@ -15,7 +15,7 @@ INTERVAL = (-5, 5)
 
 def draw(window, renderer, center):
     center_x, center_y = center
-    width, height = window_size(window)
+    width, _ = window_size(window)
     sdl2.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255)
     sdl2.SDL_RenderClear(renderer)
     sdl2.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0)
@@ -44,12 +44,6 @@ def draw_point(renderer, point):
     sdl2.SDL_RenderDrawPoint(renderer, x, y)
 
 
-def draw_points(renderer, points, color):
-    assert len(color) == 4
-    sdl2.SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3])
-    sdl2.SDL_RenderDrawPoints(renderer, points, len(points))
-
-
 def window_size(window):
     width = ctypes.c_long()
     height = ctypes.c_long()
@@ -59,10 +53,6 @@ def window_size(window):
 
 def window_center(window):
     return (x // 2 for x in window_size(window))
-
-
-def from_points(points):
-    return (sdl2.SDL_Point * len(points))(*[sdl2.SDL_Point(p[0], p[1]) for p in points])
 
 
 def main():
