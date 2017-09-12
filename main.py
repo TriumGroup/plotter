@@ -45,8 +45,8 @@ def draw_point(renderer, point):
 
 
 def window_size(window):
-    width = ctypes.c_long()
-    height = ctypes.c_long()
+    width = ctypes.c_int()
+    height = ctypes.c_int()
     sdl2.SDL_GetWindowSize(window, ctypes.byref(width), ctypes.byref(height))
     return width.value, height.value
 
